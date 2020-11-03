@@ -114,6 +114,33 @@ from sklearn.metrics import accuracy_score, confusion_matrix, classification_rep
 from sklearn.ensemble import VotingClassifier
 from pydotplus import graph_from_dot_data
 
+########################################################################
+#%%                           Confusion Matrix
+########################################################################
+
+def conf_matrix(y_test, y_pred, title):
+    print("\n**{} Confusion Matrix**".format(title))
+    cm = confusion_matrix(y_test, y_pred)
+    print(cm)
+    
+    #plot confusison matrix
+    plt.figure(figsize=(12,10))
+    plt.xticks(fontsize=15)
+    plt.yticks(fontsize=15)
+    
+    sns.heatmap(cm, annot=True, fmt='d', cbar=True, cmap='BuGn', annot_kws={'size': 25})
+    plt.ylabel('True Label', fontsize=25)
+    plt.xlabel('Predicted Label', fontsize=25)
+    plt.title('Confusion Matrix - {}'.format(title), fontsize=30)
+    plt.show()
+    
+    #ROC DT
+    fpr, tpr, _ = roc_curve(y_test, y_pred)
+    auc = roc_auc_score(y_test, y_pred_dt)
+    plt.plot(fpr,tpr,label="{}, auc=".format(title)+str(auc))
+    plt.legend(loc=4)
+    plt.show()
+
 
 ########################################################################
 #%%                         Logistic Regression
@@ -132,27 +159,7 @@ print("\n**Logistic Regression Classification Report**")
 print(classification_report(y_test,y_pred_lr))
 
 print("\n**Logistic Regression Confusion Matrix**")
-cm_lr = confusion_matrix(y_test, y_pred_lr)
-print(cm_lr)
-
-#plot confusison matrix
-plt.figure(figsize=(12,10))
-plt.xticks(fontsize=15)
-plt.yticks(fontsize=15)
-
-sns.heatmap(cm_lr, annot=True, fmt='d', cbar=True, cmap='Blues', annot_kws={'size': 25})
-plt.ylabel('True Label', fontsize=25)
-plt.xlabel('Predicted Label', fontsize=25)
-plt.title('Confusion Matrix - Logistic Regression', fontsize=30)
-plt.show()
-
-#ROC LR
-fpr, tpr, _ = roc_curve(y_test, y_pred_lr)
-auc = roc_auc_score(y_test, y_pred_lr)
-plt.plot(fpr,tpr,label="Decision Tree, auc="+str(auc))
-plt.legend(loc=4)
-plt.show()
-
+conf_matrix(y_test, y_pred_lr, 'Logistic Regression')
 
 ########################################################################
 #%%                           Decision Tree
@@ -170,26 +177,7 @@ print("\n**Decision Tree Classification Report**")
 print(classification_report(y_test,y_pred_dt))
 
 print("\n**Decision Tree Confusion Matrix**")
-cm_dt = confusion_matrix(y_test, y_pred_dt)
-print(cm_dt)
-
-#plot confusison matrix
-plt.figure(figsize=(12,10))
-plt.xticks(fontsize=15)
-plt.yticks(fontsize=15)
-
-sns.heatmap(cm_dt, annot=True, fmt='d', cbar=True, cmap='BuGn', annot_kws={'size': 25})
-plt.ylabel('True Label', fontsize=25)
-plt.xlabel('Predicted Label', fontsize=25)
-plt.title('Confusion Matrix - Decision Tree', fontsize=30)
-plt.show()
-
-#ROC DT
-fpr, tpr, _ = roc_curve(y_test, y_pred_dt)
-auc = roc_auc_score(y_test, y_pred_dt)
-plt.plot(fpr,tpr,label="Decision Tree, auc="+str(auc))
-plt.legend(loc=4)
-plt.show()
+conf_matrix(y_test,y_pred_dt, 'Decision Tree')
 
 #DT plot
 dot_data = export_graphviz(dt, filled=True)
@@ -225,25 +213,7 @@ print("\n**Random Forest Classification Report**")
 print(classification_report(y_test,y_pred_rf))
 
 print("\n**Random Forest Confusion Matrix**")
-print(confusion_matrix(y_test,y_pred_rf))
-cm_rf = confusion_matrix(y_test, y_pred_rf)
-
-#plot confusison matrix
-plt.figure(figsize=(12,10))
-plt.xticks(fontsize=15)
-plt.yticks(fontsize=15)
-sns.heatmap(cm_rf, annot=True, fmt='d', cbar=True, cmap='Blues', annot_kws={'size': 25})
-plt.ylabel('True Label', fontsize=25)
-plt.xlabel('Predicted Label', fontsize=25)
-plt.title('Confusion Matrix - Random Forest', fontsize=30)
-plt.show()
-
-#ROC RF
-fpr, tpr, _ = roc_curve(y_test, y_pred_rf)
-auc = roc_auc_score(y_test, y_pred_rf)
-plt.plot(fpr,tpr,label="Random Forest, auc="+str(auc))
-plt.legend(loc=4)
-plt.show()
+conf_matrix(y_test,y_pred_rf, 'Random Forest')
 
 ########################################################################
 #%%                               SVM
@@ -263,25 +233,7 @@ print("\n**SVM Classification Report**")
 print(classification_report(y_test,y_pred_svm))
 
 print("\n**SVM Confusion Matrix**")
-print(confusion_matrix(y_test,y_pred_svm))
-cm_svm = confusion_matrix(y_test,y_pred_svm)
-
-#plot confusison matrix
-plt.figure(figsize=(12,10))
-plt.xticks(fontsize=15)
-plt.yticks(fontsize=15)
-sns.heatmap(cm_svm, annot=True, fmt='d', cbar=True, cmap='Blues', annot_kws={'size': 25})
-plt.ylabel('True Label', fontsize=25)
-plt.xlabel('Predicted Label', fontsize=25)
-plt.title('Confusion Matrix - SVM', fontsize=30)
-plt.show()
-
-#ROC SVM
-fpr, tpr, _ = roc_curve(y_test, y_pred_svm)
-auc = roc_auc_score(y_test, y_pred_svm)
-plt.plot(fpr,tpr,label="SVM, auc="+str(auc))
-plt.legend(loc=4)
-plt.show()
+conf_matrix(y_test,y_pred_svm, 'SVM')
 
 ########################################################################
 #%%                               KNN
@@ -301,25 +253,7 @@ print("\n**KNN Classification Report**")
 print(classification_report(y_test,y_pred_knn))
 
 print("\n**KNN Confusion Matrix**")
-print(confusion_matrix(y_test,y_pred_knn))
-cm_knn = confusion_matrix(y_test,y_pred_knn)
-
-#plot confusison matrix
-plt.figure(figsize=(12,10))
-plt.xticks(fontsize=15)
-plt.yticks(fontsize=15)
-sns.heatmap(cm_knn, annot=True, fmt='d', cbar=True, cmap='Blues', annot_kws={'size': 25})
-plt.ylabel('True Label', fontsize=25)
-plt.xlabel('Predicted Label', fontsize=25)
-plt.title('Confusion Matrix - KNN', fontsize=30)
-plt.show()
-
-#ROC KNN
-fpr, tpr, _ = roc_curve(y_test, y_pred_knn)
-auc = roc_auc_score(y_test, y_pred_svm)
-plt.plot(fpr,tpr,label="KNN, auc="+str(auc))
-plt.legend(loc=4)
-plt.show()
+conf_matrix(y_test,y_pred_knn, 'KNN')
 
 ########################################################################
 #%%                               XGBoost
@@ -348,26 +282,7 @@ print("\n**XGBoost Classification Report**")
 print(classification_report(y_test,y_pred_xgb))
 
 print("\n**XGBoost Confusion Matrix**")
-print(confusion_matrix(y_test,y_pred_xgb))
-cm_xgb = confusion_matrix(y_test,y_pred_xgb)
-
-#plot confusison matrix
-plt.figure(figsize=(12,10))
-plt.xticks(fontsize=15)
-plt.yticks(fontsize=15)
-sns.heatmap(cm_xgb, annot=True, fmt='d', cbar=True, cmap='Blues', annot_kws={'size': 25})
-plt.ylabel('True Label', fontsize=25)
-plt.xlabel('Predicted Label', fontsize=25)
-plt.title('Confusion Matrix - XGBoost', fontsize=30)
-plt.show()
-
-#ROC XGBoost
-fpr, tpr, _ = roc_curve(y_test, y_pred_xgb)
-auc = roc_auc_score(y_test, y_pred_xgb)
-plt.plot(fpr,tpr,label="KNN, auc="+str(auc))
-plt.legend(loc=4)
-plt.show()
-
+conf_matrix(y_test,y_pred_xgb, 'XGBoost')
 
 ########################################################################
 #%%                           AdaBoost
@@ -387,25 +302,7 @@ print("\n**AdaBoost Classification Report**")
 print(classification_report(y_test,y_pred_adb))
 
 print("\n**AdaBoost Confusion Matrix**")
-print(confusion_matrix(y_test,y_pred_adb))
-cm_adb = confusion_matrix(y_test,y_pred_adb)
-
-#plot confusison matrix
-plt.figure(figsize=(12,10))
-plt.xticks(fontsize=15)
-plt.yticks(fontsize=15)
-sns.heatmap(cm_adb, annot=True, fmt='d', cbar=True, cmap='Blues', annot_kws={'size': 25})
-plt.ylabel('True Label', fontsize=25)
-plt.xlabel('Predicted Label', fontsize=25)
-plt.title('Confusion Matrix - AdaBoost', fontsize=30)
-plt.show()
-
-#ROC AdaBoost
-fpr, tpr, _ = roc_curve(y_test, y_pred_adb)
-auc = roc_auc_score(y_test, y_pred_adb)
-plt.plot(fpr,tpr,label="KNN, auc="+str(auc))
-plt.legend(loc=4)
-plt.show()
+conf_matrix(y_test,y_pred_adb, 'AdaBoost')
 
 ########################################################################
 #%%                           Blending Ensemble
@@ -470,26 +367,7 @@ print("\n**Logistic Regression Classification Report**")
 print(classification_report(y_test,y_pred_lr))
 
 print("\n**Logistic Regression Confusion Matrix**")
-print(confusion_matrix(y_test,y_pred_lr))
-cm_lr = confusion_matrix(y_test,y_pred_lr)
-
-#plot confusison matrix
-plt.figure(figsize=(12,10))
-plt.xticks(fontsize=15)
-plt.yticks(fontsize=15)
-sns.heatmap(cm_lr, annot=True, fmt='d', cbar=True, cmap='terrain', annot_kws={'size': 25})
-plt.ylabel('True Label', fontsize=25)
-plt.xlabel('Predicted Label', fontsize=25)
-plt.title('Confusion Matrix - Blending Logistic Regression', fontsize=30)
-plt.show()
-
-#ROC logistic regression
-fpr, tpr, _ = roc_curve(y_test, y_pred_lr)
-auc = roc_auc_score(y_test, y_pred_lr)
-plt.plot(fpr,tpr,label="Logistic Regression, auc="+str(auc))
-plt.legend(loc=4)
-plt.show()
-
+conf_matrix(y_test,y_pred_lr, 'Blending Ensemble')
 
 ########################################################################
 #%%                        Hard Voting Ensemble
@@ -509,15 +387,4 @@ print("\n**Hard Voting Classification Report**")
 print(classification_report(y_test,hard_voting_pred))
 
 print("\n**Hard Voting Confusion Matrix**")
-print(confusion_matrix(y_test,hard_voting_pred))
-cm_hv = confusion_matrix(y_test,hard_voting_pred)
-
-#plot confusison matrix
-plt.figure(figsize=(12,10))
-plt.xticks(fontsize=15)
-plt.yticks(fontsize=15)
-sns.heatmap(cm_hv, annot=True, fmt='d', cbar=True, cmap='BuGn', annot_kws={'size': 25})
-plt.ylabel('True Label', fontsize=25)
-plt.xlabel('Predicted Label', fontsize=25)
-plt.title('Confusion Matrix - Hard Voting', fontsize=30)
-plt.show()
+conf_matrix(y_test,hard_voting_pred, 'Hard Voting')

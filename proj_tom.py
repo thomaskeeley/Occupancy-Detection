@@ -67,7 +67,7 @@ print("\nSkewness (normal is 0):\n")
 print(od_full.skew()) #skewness in Light and CO2
 
 ########################################################################
-#                           PreProcessing
+#%%                           PreProcessing
 ########################################################################
 print('#','~'*15,'Preprocessing','~'*50 )
 from sklearn.preprocessing import LabelEncoder, StandardScaler, Normalizer
@@ -116,7 +116,7 @@ from pydotplus import graph_from_dot_data
 
 
 ########################################################################
-#                         Logistic Regression
+#%%                         Logistic Regression
 ########################################################################
 
 print('#','~'*10,'Logistic Regression','~'*10 )
@@ -155,7 +155,7 @@ plt.show()
 
 
 ########################################################################
-#                           Decision Tree
+#%%                           Decision Tree
 ########################################################################
 print('#','~'*10,'Decision Tree','~'*10 )
 dt_clf = DecisionTreeClassifier(criterion='gini')
@@ -209,7 +209,7 @@ plt.tight_layout()
 plt.show()
 
 ########################################################################
-#                           Random Forest
+#%%                           Random Forest
 ########################################################################
 #Random forest
 print('#','~'*10,'Random Forest','~'*10 )
@@ -246,7 +246,7 @@ plt.legend(loc=4)
 plt.show()
 
 ########################################################################
-#                               SVM
+#%%                               SVM
 ########################################################################
 
 #SVM
@@ -284,7 +284,7 @@ plt.legend(loc=4)
 plt.show()
 
 ########################################################################
-#                               KNN
+#%%                               KNN
 ########################################################################
 
 #KNN
@@ -322,7 +322,7 @@ plt.legend(loc=4)
 plt.show()
 
 ########################################################################
-#                               XGBoost
+#%%                               XGBoost
 ########################################################################
 #Grid Search for hyperparameter tuning
 n_estimators = [50, 100, 150, 200]
@@ -370,7 +370,7 @@ plt.show()
 
 
 ########################################################################
-#                           AdaBoost
+#%%                           AdaBoost
 ########################################################################
 
 # AdaBoost
@@ -408,7 +408,7 @@ plt.legend(loc=4)
 plt.show()
 
 ########################################################################
-#                           Blending Ensemble
+#%%                           Blending Ensemble
 ########################################################################
 
 #Create new train test split, further split train into validation set
@@ -492,7 +492,7 @@ plt.show()
 
 
 ########################################################################
-#                        Hard Voting Ensemble
+#%%                        Hard Voting Ensemble
 ########################################################################
 
 #Hard Voting (logistic regression, decision tree, random forest, SVM, KNN)
@@ -502,7 +502,7 @@ hard_voting.fit(X_train, y_train)
 hard_voting_pred = hard_voting.predict(X_test)
 
 #Hard Voting performance
-print("\n**Hard Voting Accuracy Score**")offi
+print("\n**Hard Voting Accuracy Score**")
 print(accuracy_score(y_test, hard_voting_pred))
 
 print("\n**Hard Voting Classification Report**")
